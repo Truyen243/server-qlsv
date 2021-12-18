@@ -56,13 +56,12 @@ let createSV = async (req, res) => {
 let getSV = async (req, res) => {
     try {
         const id = req.params.id;
-        const sinhvien = await SinhVien.findByPk('1',{
+        const sinhvien = await SinhVien.findByPk(id, {
             include: [{
                 module: Lop,
                 as: 'sinhviens',
             }]
         });
-        console.log(sinhvien)
         if (sinhvien === null) {
             return res.json({
                 status: 'error',
@@ -71,24 +70,23 @@ let getSV = async (req, res) => {
                 data: null
             });
         } else {
-            // res.json({
-            //     status: 'success',
-            //     code: '200',
-            //     message: 'Thanh cong',
-            //     data: {
-            //         id: sinhvien.id,
-            //         name: sinhvien.name,
-            //         mssv: sinhvien.uid,
-            //         address: sinhvien.address,
-            //         email: sinhvien.email,
-            //         date: sinhvien.date,
-            //         sex: sinhvien.sex,
-            //         phone: sinhvien.phone,
-            //         updatedAt: sinhvien.updatedAt,
-            //         createdAt: sinhvien.createdAt
-            //     }
-            // })
-            res.json(sinhvien)
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: {
+                    id: sinhvien.id,
+                    name: sinhvien.name,
+                    mssv: sinhvien.uid,
+                    address: sinhvien.address,
+                    email: sinhvien.email,
+                    date: sinhvien.date,
+                    sex: sinhvien.sex,
+                    phone: sinhvien.phone,
+                    updatedAt: sinhvien.updatedAt,
+                    createdAt: sinhvien.createdAt
+                }
+            })
         }
     } catch (e) {
         res.json({
@@ -100,6 +98,86 @@ let getSV = async (req, res) => {
     }
 }
 
+let editSV = async (req, res) => {
+    try {
+        const {id, name, address, email, phone, date, sex} = req.body;
+        const sinhvien = await SinhVien.findByPk(id);
+        sinhvien.name = name || sinhvien.name
+        sinhvien.address = address || sinhvien.address
+        sinhvien.email = email || sinhvien.email
+        sinhvien.phone = phone || sinhvien.phone
+        sinhvien.date = date || sinhvien.date
+        sinhvien.sex = sex || sinhvien.sex
+        const sinhvienedit = await sinhvien.save();
+        if (sinhvienedit === null) {
+            return res.json({
+                status: 'error',
+                code: '404',
+                message: 'Khong tim thay sinh vien',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: {
+                    id: sinhvienedit.id,
+                    name: sinhvienedit.name,
+                    mssv: sinhvienedit.uid,
+                    address: sinhvienedit.address,
+                    email: sinhvienedit.email,
+                    date: sinhvienedit.date,
+                    sex: sinhvienedit.sex,
+                    phone: sinhvienedit.phone,
+                    updatedAt: sinhvienedit.updatedAt,
+                    createdAt: sinhvienedit.createdAt
+                }
+            })
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+
+let deleteSV = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const sinhvien = await SinhVien.destroy({
+            where: {
+                id: id
+            }
+        });
+
+        if (sinhvien === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Sua mon hoc that bai ',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: sinhvien
+            });
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
 
 let getIdMax = async () => {
     const id = await SinhVien.findAll({
@@ -115,5 +193,7 @@ let getIdMax = async () => {
 
 module.exports = {
     createSV,
-    getSV
+    getSV,
+    editSV,
+    deleteSV
 }

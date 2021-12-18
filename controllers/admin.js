@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const moment = require('moment');
 const jwt = require('jsonwebtoken');
 const {Admin} = require('../models/index');
 const {validatePassword, validateEmail} = require('../validate/index');
@@ -24,10 +23,18 @@ let createAmin = async (req, res) => {
                         email: email,
                         password: hashedPassword,
                         code: code,
-                        verify: true
+                        verify: false
                     });
 
-                    if (admin) {
+                    if (admin ===null) {
+                        return res.json({
+                            status: 'error',
+                            code: '405',
+                            message: 'Tao tai khoan that bai',
+                            data: null
+                        })
+                    } else {
+
                         const token = jwt.sign({
                             id: admin.id,
                             name: admin.ten,
@@ -54,13 +61,6 @@ let createAmin = async (req, res) => {
                             },
                             token: token
                         });
-                    } else {
-                        return res.json({
-                            status: 'error',
-                            code: '405',
-                            message: 'Tao tai khoan that bai',
-                            data: null
-                        })
                     }
 
                 } else {

@@ -1,18 +1,16 @@
-const {Monhoc} = require('../models/index');
+const {Khoa} = require("../models/index");
 
-let createMH = async (req, res) => {
+let createK = async (req, res) => {
     try {
-        const {ten, hesodiem, sotiet} = req.body;
-        const monhoc = await Monhoc.create({
+        const {ten} = req.body;
+        const khoa = await Khoa.create({
             ten: ten,
-            hesodiem: hesodiem,
-            sotiet: sotiet
         });
-        if (monhoc === null) {
+        if (khoa === null) {
             return res.json({
                 status: 'error',
                 code: '405',
-                message: 'Tao mon hoc that bai',
+                message: 'Tao khoa that bai',
                 data: null
             });
         } else {
@@ -21,10 +19,8 @@ let createMH = async (req, res) => {
                 code: '200',
                 message: 'Thanh cong',
                 data: {
-                    id: monhoc.id,
-                    ten: monhoc.ten,
-                    hesodiem: monhoc.hesodiem,
-                    sotiet: monhoc.sotiet
+                    id: khoa.id,
+                    ten: khoa.ten,
                 }
             });
         }
@@ -38,15 +34,15 @@ let createMH = async (req, res) => {
     }
 }
 
-let getMH = async (req, res) => {
+let getK = async (req, res) => {
     try {
         const {id} = req.params;
-        const monhoc = await Monhoc.findByPk(id);
-        if (monhoc === null) {
+        const khoa = await Khoa.findByPk(id);
+        if (khoa === null) {
             return res.json({
                 status: 'error',
                 code: '405',
-                message: 'Khong tim thay mon hoc',
+                message: 'Khong tim thay mon khoa',
                 data: null
             });
         } else {
@@ -55,10 +51,8 @@ let getMH = async (req, res) => {
                 code: '200',
                 message: 'Thanh cong',
                 data: {
-                    id: monhoc.id,
-                    ten: monhoc.ten,
-                    hesodiem: monhoc.hesodiem,
-                    sotiet: monhoc.sotiet
+                    id: khoa.id,
+                    ten: khoa.ten,
                 }
             });
         }
@@ -72,20 +66,18 @@ let getMH = async (req, res) => {
     }
 }
 
-let editMH = async (req, res) => {
+let editK = async (req, res) => {
     try {
-        const {id, ten, hesodiem, sotiet} = req.body;
-        const monhoc = await Monhoc.findByPk(id);
-        monhoc.ten = ten || monhoc.ten;
-        monhoc.hesodiem = hesodiem || monhoc.hesodiem;
-        monhoc.sotiet = sotiet || monhoc.sotiet;
+        const {id, ten} = req.body;
+        const khoa = await Khoa.findByPk(id);
+        khoa.ten = ten || khoa.ten;
 
-        const monhocedit = await monhoc.save();
-        if (monhocedit === null) {
+        const khoaedit = await khoa.save();
+        if (khoaedit === null) {
             return res.json({
                 status: 'error',
                 code: '405',
-                message: 'Sua mon hoc that bai ',
+                message: 'Sua khoa that bai ',
                 data: null
             });
         } else {
@@ -94,10 +86,8 @@ let editMH = async (req, res) => {
                 code: '200',
                 message: 'Thanh cong',
                 data: {
-                    id: monhocedit.id,
-                    ten: monhocedit.ten,
-                    hesodiem: monhocedit.hesodiem,
-                    sotiet: monhocedit.sotiet
+                    id: khoaedit.id,
+                    ten: khoaedit.ten,
                 }
             });
         }
@@ -111,16 +101,16 @@ let editMH = async (req, res) => {
     }
 }
 
-let deleteMH = async (req, res) => {
+let deleteK = async (req, res) => {
     try {
         const {id} = req.params;
-        const monhoc = await Monhoc.destroy({
+        const khoa = await Khoa.destroy({
             where:{
                 id:id
             }
         });
 
-        if (monhoc === null) {
+        if (khoa === null) {
             return res.json({
                 status: 'error',
                 code: '405',
@@ -132,7 +122,7 @@ let deleteMH = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: monhoc
+                data: khoa
             });
         }
     } catch (e) {
@@ -146,8 +136,8 @@ let deleteMH = async (req, res) => {
 }
 
 module.exports={
-    createMH,
-    getMH,
-    editMH,
-    deleteMH
+    createK,
+    getK,
+    editK,
+    deleteK
 }
