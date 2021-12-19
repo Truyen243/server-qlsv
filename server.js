@@ -10,6 +10,10 @@ const {connectDB, routesConnectDB} = require('./config/configDB');
 
 const admimRouter = require('./router/admin');
 const svRouter = require('./router/sinhvien');
+const mhRouter = require('./router/monhoc');
+const lRouter = require('./router/lop');
+const kRouter = require('./router/khoa');
+const dRouter = require('./router/diem');
 
 
 
@@ -46,6 +50,10 @@ app.use(function (req, res, next) {
 
 app.use('/admin',admimRouter);
 app.use('/sv',svRouter);
+app.use('/mh',mhRouter);
+app.use('/lop',lRouter);
+app.use('/khoa',kRouter);
+app.use('/diem',dRouter);
 
 app.get('/', routesConnectDB);
 

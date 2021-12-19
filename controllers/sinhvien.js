@@ -224,7 +224,6 @@ let deleteSV = async (req, res) => {
     }
 }
 
-
 let getIdMax = async () => {
     const id = await SinhVien.findAll({
         attributes: [[Sequelize.fn('max', Sequelize.col('id')), 'max']],
