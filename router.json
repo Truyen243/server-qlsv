@@ -1,0 +1,59 @@
+{
+  "router": {
+    "admin": {
+      "tao tai khaon admin - post": "/admin/create",
+      "dang nhap - post": "/admin/login",
+      "xem thong tin tao khoan - get": "/admin/get/:id"
+    },
+    "sinh vien": {
+      "tao sinh vien": ["post","/sv/create",[
+        "name", "email", "address", "date", "phone", "sex", "lop_id"
+      ]],
+      "sua sinh vien": ["post","/sv/edit",
+        ["id, name", "address", "email", "phone", "date", "sex"]],
+      "xoa sinh vien": ["delete","/sv/delete","id"],
+      "xem mot sinh vien": ["get","/sv/get/:id"],
+      "xem ta ca sinh vien": ["get","/sv/get/all"]
+    },
+    "mon hoc": {
+      "tao mon hoc": ["post","/mh/create",[
+        "ten", "hesodiem", "sotiet"
+      ]],
+      "sua mon hoc": ["post","/mh/edit",
+        ["id","ten", "hesodiem", "sotiet"]],
+      "xoa mon hoc": ["delete","/mh/delete","id"],
+      "xem mon hoc": ["get","/mh/get/:id"],
+      "xem ta ca mon hoc": ["get","/mh/get/all"]
+    },
+    "lop": {
+      "tao lop": ["post","/lop/create",[
+        "ten", "khoa_id"
+      ]],
+      "sua lop": ["post","/lop/edit",
+        ["id","ten", "khoa_id"]],
+      "xoa lop": ["delete","/lop/delete","id"],
+      "xem lop": ["get","/lop/get/:id"],
+      "xem ta ca lop": ["get","/lop/get/all"]
+    },
+    "khoa": {
+      "tao khoa": ["post","/khoa/create",[
+        "ten"
+      ]],
+      "sua khoa": ["post","/khoa/edit",
+        ["id","ten"]],
+      "xoa khoa": ["delete","/khoa/delete","id"],
+      "xem khoa": ["get","/khoa/get/:id"],
+      "xem ta ca khoa": ["get","/khoa/get/all"]
+    },
+    "diem": {
+      "tao diem": ["post","/diem/create",[
+        "sv_id", "mh_id", "diem10", "diem30", "diem60", "diemtong"
+      ]],
+      "sua diem": ["post","/diem/edit",
+        ["id","sv_id", "mh_id", "diem10", "diem30", "diem60", "diemtong"]],
+      "xoa diem": ["delete","/diem/delete","id"],
+      "xem diem": ["get","/diem/get/:id"],
+      "xem ta ca diem": ["get","/diem/get/all"]
+    }
+  }
+}

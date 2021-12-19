@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post('/create',verifyToken,createK);
 router.post('/edit',verifyToken,editK);
-router.post('/delete',verifyToken,deleteK);
+router.delete('/delete',verifyToken,deleteK);
 router.get('/get/:id',verifyToken,getK);
 router.get('/get/all',verifyToken,getKALL);
 module.exports = router;

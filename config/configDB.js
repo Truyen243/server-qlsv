@@ -1,5 +1,6 @@
 const {Sequelize} = require('sequelize');
 require('dotenv').config();
+const data =require('../router.json');
 const customConfig = {
     "host": process.env.DB_HOST,
     "dialect": process.env.DB_DIALECT,
@@ -13,7 +14,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME
 let routesConnectDB = async (req, res) => {
     try {
         await sequelize.authenticate();
-        res.send('Connection has been established successfully.');
+        res.send(JSON.stringify(data));
     } catch (error) {
         res.send('Unable to connect to the database:', error);
     }
