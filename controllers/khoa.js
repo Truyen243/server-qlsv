@@ -66,6 +66,37 @@ let getK = async (req, res) => {
     }
 }
 
+let getKALL = async (req, res) => {
+    try {
+        const khoa = await Khoa.findAll();
+        if (khoa === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Khong tim thay mon khoa',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: {
+                    id: khoa.id,
+                    ten: khoa.ten,
+                }
+            });
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+
 let editK = async (req, res) => {
     try {
         const {id, ten} = req.body;
@@ -139,5 +170,6 @@ module.exports={
     createK,
     getK,
     editK,
-    deleteK
+    deleteK,
+    getKALL
 }

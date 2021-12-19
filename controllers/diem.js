@@ -1,17 +1,21 @@
-const {Lop,Khoa} = require("../models/index");
+const {MonHoc,SinhVien} = require('../models/index');
 
-let createL = async (req, res) => {
+let createD = async (req, res) => {
     try {
-        const {ten, khoa_id} = req.body;
-        const lop = await Lop.create({
-            ten: ten,
-            khoa_id: khoa_id
+        const {sv_id, mh_id, diem10, diem30, diem60, diemtong} = req.body;
+        const diem = await Diem.create({
+            sv_id: sv_id,
+            mh_id: mh_id,
+            diem10: diem10,
+            diem30: diem30,
+            diem60: diem60,
+            diemtong: diemtong
         });
-        if (lop === null) {
+        if (diem === null) {
             return res.json({
                 status: 'error',
                 code: '405',
-                message: 'Tao lop that bai',
+                message: 'Tao mon hoc that bai',
                 data: null
             });
         } else {
@@ -20,8 +24,13 @@ let createL = async (req, res) => {
                 code: '200',
                 message: 'Thanh cong',
                 data: {
-                    id: lop.id,
-                    ten: lop.ten,
+                    id: diem.id,
+                    sv_id: diem.sv_id,
+                    mh_id: diem.mh_id,
+                    diem10: diem.diem10,
+                    diem30: diem.diem30,
+                    diem60: diem.diem60,
+                    diemtong: diem.diemtong
                 }
             });
         }
@@ -35,20 +44,23 @@ let createL = async (req, res) => {
     }
 }
 
-let getL = async (req, res) => {
+let getD = async (req, res) => {
     try {
         const {id} = req.params;
-        const lop = await Lop.findByPk(id,{
+        const diem = await SinhVien.findByPk(id,{
             include:[{
-                model:Khoa,
-                as:'lops'
+                model:MonHoc,
+                as:'sinhvienmh',
+                through:{
+                    attributes:[]
+                }
             }]
         });
-        if (lop === null) {
+        if (diem === null) {
             return res.json({
                 status: 'error',
                 code: '405',
-                message: 'Khong tim thay mon lop',
+                message: 'Khong tim thay mon hoc',
                 data: null
             });
         } else {
@@ -57,8 +69,13 @@ let getL = async (req, res) => {
                 code: '200',
                 message: 'Thanh cong',
                 data: {
-                    id: lop.id,
-                    ten: lop.ten,
+                    id: diem.id,
+                    sv_id: diem.sv_id,
+                    mh_id: diem.mh_id,
+                    diem10: diem.diem10,
+                    diem30: diem.diem30,
+                    diem60: diem.diem60,
+                    diemtong: diem.diemtong
                 }
             });
         }
@@ -72,20 +89,22 @@ let getL = async (req, res) => {
     }
 }
 
-let getLALL = async (req, res) => {
+let getDALL = async (req, res) => {
     try {
-
-        const lop = await Lop.findAll({
+        const diem = await SinhVien.findAll({
             include:[{
-                model:Khoa,
-                as:'lops'
+                model:MonHoc,
+                as:'sinhvienmh',
+                through:{
+                    attributes:[]
+                }
             }]
         });
-        if (lop === null) {
+        if (diem === null) {
             return res.json({
                 status: 'error',
                 code: '405',
-                message: 'Khong tim thay mon lop',
+                message: 'Khong tim thay mon hoc',
                 data: null
             });
         } else {
@@ -94,8 +113,13 @@ let getLALL = async (req, res) => {
                 code: '200',
                 message: 'Thanh cong',
                 data: {
-                    id: lop.id,
-                    ten: lop.ten,
+                    id: diem.id,
+                    sv_id: diem.sv_id,
+                    mh_id: diem.mh_id,
+                    diem10: diem.diem10,
+                    diem30: diem.diem30,
+                    diem60: diem.diem60,
+                    diemtong: diem.diemtong
                 }
             });
         }
@@ -109,52 +133,18 @@ let getLALL = async (req, res) => {
     }
 }
 
-let editL = async (req, res) => {
+let editD = async (req, res) => {
     try {
-        const {id, ten, khoa_id} = req.body;
-        const lop = await Lop.findByPk(id);
-        lop.ten = ten || lop.ten;
-        lop.khoa_id = khoa_id || lop.khoa_id;
+        const {id, diem10, diem30, diem60, diemtong} = req.body;
+        const diem = await Diem.findByPk(id);
+        diem.diem10 = diem10 || diem.diem10;
+        diem.diem30 = diem30 || diem.diem30;
+        diem.diem60 = diem60 || diem.diem60;
+        diem.diemtong = diemtong || diem.diemtong;
 
-        const lopedit = await khoa.save();
-        if (lopedit === null) {
-            return res.json({
-                status: 'error',
-                code: '405',
-                message: 'Sua lop that bai ',
-                data: null
-            });
-        } else {
-            res.json({
-                status: 'success',
-                code: '200',
-                message: 'Thanh cong',
-                data: {
-                    id: lopedit.id,
-                    ten: lopedit.ten,
-                }
-            });
-        }
-    } catch (e) {
-        res.json({
-            status: 'error',
-            code: '404',
-            message: 'Vui long dang nhap',
-            data: null
-        })
-    }
-}
 
-let deleteL = async (req, res) => {
-    try {
-        const {id} = req.params;
-        const lop = await Lop.destroy({
-            where: {
-                id: id
-            }
-        });
-
-        if (lop === null) {
+        const monhocedit = await monhoc.save();
+        if (monhocedit === null) {
             return res.json({
                 status: 'error',
                 code: '405',
@@ -166,7 +156,46 @@ let deleteL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: lop
+                data: {
+                    id: monhocedit.id,
+                    ten: monhocedit.ten,
+                    hesodiem: monhocedit.hesodiem,
+                    sotiet: monhocedit.sotiet
+                }
+            });
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+
+let deleteD = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const diem = await Diem.destroy({
+            where: {
+                id: id
+            }
+        });
+
+        if (diem === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Sua mon hoc that bai ',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: diem
             });
         }
     } catch (e) {
@@ -180,9 +209,9 @@ let deleteL = async (req, res) => {
 }
 
 module.exports = {
-    createL,
-    getL,
-    editL,
-    deleteL,
-    getLALL
+    createD,
+    getD,
+    editD,
+    deleteD,
+    getDALL
 }

@@ -72,6 +72,39 @@ let getMH = async (req, res) => {
     }
 }
 
+let getMHALL = async (req, res) => {
+    try {
+        const monhoc = await Monhoc.findAll();
+        if (monhoc === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Khong tim thay mon hoc',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: {
+                    id: monhoc.id,
+                    ten: monhoc.ten,
+                    hesodiem: monhoc.hesodiem,
+                    sotiet: monhoc.sotiet
+                }
+            });
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+
 let editMH = async (req, res) => {
     try {
         const {id, ten, hesodiem, sotiet} = req.body;
@@ -149,5 +182,6 @@ module.exports={
     createMH,
     getMH,
     editMH,
-    deleteMH
+    deleteMH,
+    getMHALL
 }
