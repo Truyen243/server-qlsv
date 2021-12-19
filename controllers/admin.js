@@ -1,16 +1,18 @@
+const {Admin} = require('../models/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {Admin} = require('../models/index');
+
 const {validatePassword, validateEmail} = require('../validate/index');
 const {sendMail} = require('../sendmail/index');
 
 
 let createAmin = async (req, res) => {
     try {
+
         const name = req.body.name;
         const email = req.body.email;
         const password = req.body.password;
-        const check = await checkEmail(email);
+        const check =await checkEmail(email);
         if (!check) {
             if (validateEmail(email)) {
                 if (validatePassword(password)) {
@@ -26,11 +28,11 @@ let createAmin = async (req, res) => {
                         verify: false
                     });
 
-                    if (admin ===null) {
+                    if (admin === null) {
                         return res.json({
                             status: 'error',
                             code: '405',
-                            message: 'Tao tai khoan that bai',
+                            message: 'Tao tai khoan that bai 1',
                             data: null
                         })
                     } else {
@@ -90,10 +92,11 @@ let createAmin = async (req, res) => {
 
 
     } catch (e) {
+        console.log(e)
         res.json({
             status: 'error',
             code: '405',
-            message: 'Tao tai khoan that bai',
+            message: 'Tao tai khoan that bai 2',
             data: null
         })
     }
@@ -238,13 +241,20 @@ let verifyEmailAdmin = async (req, res) => {
 }
 
 
-let checkEmail = async (email) => {
-    const result = await Admin.findOne({
-        where: {
-            email: email
+let checkEmail = (email) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await Admin.findAll({
+                where: {
+                    email: email
+                },
+                limit: 1
+            });
+            resolve(false);
+        } catch (e) {
+            reject(true)
         }
-    });
-    return !!result
+    })
 }
 
 function hashPassword(password) {
