@@ -2,10 +2,11 @@ const {Lop,Khoa} = require("../models/index");
 
 let createL = async (req, res) => {
     try {
-        const {ten, khoa_id} = req.body;
+        const {ten, khoa_id,malop} = req.body;
         const lop = await Lop.create({
             ten: ten,
-            khoa_id: khoa_id
+            khoa_id: khoa_id,
+            malop:malop
         });
         if (lop === null) {
             return res.json({
@@ -22,6 +23,7 @@ let createL = async (req, res) => {
                 data: {
                     id: lop.id,
                     ten: lop.ten,
+                    malop: lop.malop,
                 }
             });
         }
@@ -59,6 +61,7 @@ let getL = async (req, res) => {
                 data: {
                     id: lop.id,
                     ten: lop.ten,
+                    malop: lop.malop,
                 }
             });
         }
@@ -96,6 +99,7 @@ let getLALL = async (req, res) => {
                 data: {
                     id: lop.id,
                     ten: lop.ten,
+                    malop: lop.malop,
                 }
             });
         }
@@ -111,10 +115,11 @@ let getLALL = async (req, res) => {
 
 let editL = async (req, res) => {
     try {
-        const {id, ten, khoa_id} = req.body;
+        const {id, ten, khoa_id,malop} = req.body;
         const lop = await Lop.findByPk(id);
         lop.ten = ten || lop.ten;
         lop.khoa_id = khoa_id || lop.khoa_id;
+        lop.malop = malop || lop.malop;
 
         const lopedit = await khoa.save();
         if (lopedit === null) {
@@ -132,6 +137,7 @@ let editL = async (req, res) => {
                 data: {
                     id: lopedit.id,
                     ten: lopedit.ten,
+                    malop: lopedit.malop,
                 }
             });
         }

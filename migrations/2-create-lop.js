@@ -18,6 +18,9 @@ module.exports = {
           key: "id"
         }
       },
+      malop: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

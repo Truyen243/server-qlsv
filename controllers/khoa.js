@@ -2,9 +2,10 @@ const {Khoa} = require("../models/index");
 
 let createK = async (req, res) => {
     try {
-        const {ten} = req.body;
+        const {ten,makhoa} = req.body;
         const khoa = await Khoa.create({
             ten: ten,
+            makhoa:makhoa
         });
         if (khoa === null) {
             return res.json({
@@ -21,6 +22,7 @@ let createK = async (req, res) => {
                 data: {
                     id: khoa.id,
                     ten: khoa.ten,
+                    makhoa: khoa.makhoa,
                 }
             });
         }
@@ -53,6 +55,7 @@ let getK = async (req, res) => {
                 data: {
                     id: khoa.id,
                     ten: khoa.ten,
+                    makhoa: khoa.makhoa,
                 }
             });
         }
@@ -84,6 +87,7 @@ let getKALL = async (req, res) => {
                 data: {
                     id: khoa.id,
                     ten: khoa.ten,
+                    makhoa: khoa.makhoa,
                 }
             });
         }
@@ -119,6 +123,7 @@ let editK = async (req, res) => {
                 data: {
                     id: khoaedit.id,
                     ten: khoaedit.ten,
+                    makhoa: khoaedit.makhoa,
                 }
             });
         }

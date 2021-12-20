@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Khoa.init({
-    ten: DataTypes.STRING
+    ten: DataTypes.STRING,
+    makhoa: DataTypes.STRING,
   }, {
     sequelize,
     tableName: 'Khoas',

@@ -11,6 +11,9 @@ module.exports = {
       ten: {
         type: Sequelize.STRING
       },
+      makhoa: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

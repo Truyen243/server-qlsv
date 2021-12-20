@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   Lop.init({
     ten: DataTypes.STRING,
-    khoa_id: DataTypes.INTEGER
+    khoa_id: DataTypes.INTEGER,
+    malop: DataTypes.STRING,
   }, {
     sequelize,
     tableName: 'Lops',
