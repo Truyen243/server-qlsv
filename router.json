@@ -13,7 +13,8 @@
         ["id"," name", "address", "email", "phone", "date", "sex"]],
       "xoa sinh vien": ["delete","/sv/delete/:id"],
       "xem mot sinh vien": ["get","/sv/get/:id"],
-      "xem ta ca sinh vien": ["get","/sv/get/all"]
+      "xem ta ca sinh vien": ["get","/sv/get/all"],
+      "search mssv": ["get","/sv/search/:mssv"]
     },
     "mon hoc": {
       "tao mon hoc": ["post","/mh/create",[
@@ -24,6 +25,7 @@
       "xoa mon hoc": ["delete","/mh/delete/:id"],
       "xem mon hoc": ["get","/mh/get/:id"],
       "xem ta ca mon hoc": ["get","/mh/get/all"]
+
     },
     "lop": {
       "tao lop": ["post","/lop/create",[
@@ -33,7 +35,8 @@
         ["id","ten", "khoa_id","malop"]],
       "xoa lop": ["delete","/lop/delete/:id"],
       "xem lop": ["get","/lop/get/:id"],
-      "xem ta ca lop": ["get","/lop/get/all"]
+      "xem ta ca lop": ["get","/lop/get/all"],
+      "search lop": ["get","/lop/search/:malop"]
     },
     "khoa": {
       "tao khoa": ["post","/khoa/create",[
@@ -43,7 +46,8 @@
         ["id","ten"]],
       "xoa khoa": ["delete","/khoa/delete/:id"],
       "xem khoa": ["get","/khoa/get/:id"],
-      "xem ta ca khoa": ["get","/khoa/get/all"]
+      "xem ta ca khoa": ["get","/khoa/get/all"],
+      "search": ["get","/khoa/search/:makhoa"]
     },
     "diem": {
       "tao diem": ["post","/diem/create",[

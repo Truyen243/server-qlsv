@@ -5,7 +5,7 @@ const {
     getMH,
     editMH,
     deleteMH,
-    getMHALL} = require("../controllers/monhoc");
+    getMHALL,} = require("../controllers/monhoc");
 const router = express.Router();
 
 router.post('/create',verifyToken,createMH);

@@ -101,7 +101,7 @@ let getSV = async (req, res) => {
 let getSVALL = async (req, res) => {
     try {
 
-        const sinhvien = await SinhVien.findAll( {
+        const sinhvien = await SinhVien.findAll({
             include: [{
                 module: Lop,
                 as: 'sinhviens',
@@ -224,6 +224,55 @@ let deleteSV = async (req, res) => {
     }
 }
 
+
+let searchMssv = async (req, res) => {
+    try {
+        const {mssv} = req.params;
+        const sinhvien = await SinhVien.findAll({
+            where: {
+                uid:mssv
+            },
+            include: [{
+                module: Lop,
+                as: 'sinhviens',
+            }]
+        });
+        if (sinhvien === null) {
+            return res.json({
+                status: 'error',
+                code: '404',
+                message: 'Khong tim thay sinh vien',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: {
+                    id: sinhvien.id,
+                    name: sinhvien.name,
+                    mssv: sinhvien.uid,
+                    address: sinhvien.address,
+                    email: sinhvien.email,
+                    date: sinhvien.date,
+                    sex: sinhvien.sex,
+                    phone: sinhvien.phone,
+                    updatedAt: sinhvien.updatedAt,
+                    createdAt: sinhvien.createdAt
+                }
+            })
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+
 let getIdMax = async () => {
     const id = await SinhVien.findAll({
         attributes: [[Sequelize.fn('max', Sequelize.col('id')), 'max']],
@@ -241,5 +290,6 @@ module.exports = {
     getSV,
     editSV,
     deleteSV,
-    getSVALL
+    getSVALL,
+    searchMssv
 }

@@ -1,4 +1,4 @@
-const {Khoa} = require("../models/index");
+const {Khoa,Lop} = require("../models/index");
 
 let createK = async (req, res) => {
     try {
@@ -57,6 +57,42 @@ let getK = async (req, res) => {
                     ten: khoa.ten,
                     makhoa: khoa.makhoa,
                 }
+            });
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+let searchMK = async (req, res) => {
+    try {
+        const {makhoa} = req.params;
+        const khoa = await Khoa.findAll({
+            where:{
+                makhoa:makhoa
+            },
+            include:[{
+                model:Lop,
+                as:'lops'
+            }]
+        });
+        if (khoa === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Khong tim thay mon khoa',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data:khoa
             });
         }
     } catch (e) {
@@ -171,10 +207,12 @@ let deleteK = async (req, res) => {
     }
 }
 
+
 module.exports={
     createK,
     getK,
     editK,
     deleteK,
-    getKALL
+    getKALL,
+    searchMK
 }

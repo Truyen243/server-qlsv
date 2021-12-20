@@ -1,12 +1,12 @@
-const {Lop,Khoa} = require("../models/index");
+const {Lop, Khoa} = require("../models/index");
 
 let createL = async (req, res) => {
     try {
-        const {ten, khoa_id,malop} = req.body;
+        const {ten, khoa_id, malop} = req.body;
         const lop = await Lop.create({
             ten: ten,
             khoa_id: khoa_id,
-            malop:malop
+            malop: malop
         });
         if (lop === null) {
             return res.json({
@@ -40,10 +40,10 @@ let createL = async (req, res) => {
 let getL = async (req, res) => {
     try {
         const {id} = req.params;
-        const lop = await Lop.findByPk(id,{
-            include:[{
-                model:Khoa,
-                as:'lops'
+        const lop = await Lop.findByPk(id, {
+            include: [{
+                model: Khoa,
+                as: 'lops'
             }]
         });
         if (lop === null) {
@@ -79,9 +79,9 @@ let getLALL = async (req, res) => {
     try {
 
         const lop = await Lop.findAll({
-            include:[{
-                model:Khoa,
-                as:'lops'
+            include: [{
+                model: Khoa,
+                as: 'lops'
             }]
         });
         if (lop === null) {
@@ -115,7 +115,7 @@ let getLALL = async (req, res) => {
 
 let editL = async (req, res) => {
     try {
-        const {id, ten, khoa_id,malop} = req.body;
+        const {id, ten, khoa_id, malop} = req.body;
         const lop = await Lop.findByPk(id);
         lop.ten = ten || lop.ten;
         lop.khoa_id = khoa_id || lop.khoa_id;
@@ -185,10 +185,51 @@ let deleteL = async (req, res) => {
     }
 }
 
+let searchMsl = async (req, res) => {
+    try {
+        const {malop} = req.params;
+        const lop = await Lop.findAll({
+            where: {
+                malop: malop
+            },
+            include: [{
+                model: Khoa,
+                as: 'lops'
+            }]
+        });
+        if (lop === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Khong tim thay mon lop',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: {
+                    id: lop.id,
+                    ten: lop.ten,
+                    malop: lop.malop,
+                }
+            });
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
 module.exports = {
     createL,
     getL,
     editL,
     deleteL,
-    getLALL
+    getLALL,
+    searchMsl
 }
