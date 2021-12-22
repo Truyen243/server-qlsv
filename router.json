@@ -3,7 +3,8 @@
     "admin": {
       "tao tai khaon admin - post": "/admin/create",
       "dang nhap - post": "/admin/login",
-      "xem thong tin tao khoan - get": "/admin/get/:id"
+      "xem thong tin tao khoan - get": "/admin/get/:id",
+      "doi mat khau": ["post","/admin/forgot/:id"]
     },
     "sinh vien": {
       "tao sinh vien": ["post","/sv/create",[
@@ -18,10 +19,10 @@
     },
     "mon hoc": {
       "tao mon hoc": ["post","/mh/create",[
-        "ten", "hesodiem", "sotiet"
+        "ten", "hesodiem", "sotiet","mamonhoc"
       ]],
       "sua mon hoc": ["post","/mh/edit",
-        ["id","ten", "hesodiem", "sotiet"]],
+        ["id","ten", "hesodiem", "sotiet","mamonhoc"]],
       "xoa mon hoc": ["delete","/mh/delete/:id"],
       "xem mon hoc": ["get","/mh/get/:id"],
       "xem ta ca mon hoc": ["get","/mh/get/all"]

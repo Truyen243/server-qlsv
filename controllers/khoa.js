@@ -120,11 +120,7 @@ let getKALL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: khoa.id,
-                    ten: khoa.ten,
-                    makhoa: khoa.makhoa,
-                }
+                data: khoa
             });
         }
     } catch (e) {

@@ -119,18 +119,7 @@ let getSVALL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: sinhvien.id,
-                    name: sinhvien.name,
-                    mssv: sinhvien.uid,
-                    address: sinhvien.address,
-                    email: sinhvien.email,
-                    date: sinhvien.date,
-                    sex: sinhvien.sex,
-                    phone: sinhvien.phone,
-                    updatedAt: sinhvien.updatedAt,
-                    createdAt: sinhvien.createdAt
-                }
+                data: sinhvien
             })
         }
     } catch (e) {

@@ -1,1 +1,1 @@
-npx sequelize-cli migration:create --name new_sinhvien_phone_sex
+npx sequelize-cli migration:create --name new_monhoc_mamonhoc

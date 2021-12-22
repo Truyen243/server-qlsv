@@ -3,9 +3,11 @@ const app = express();
 require('dotenv').config();
 const cors = require("cors");
 const morgan = require("morgan");
+const helmet = require('helmet');
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser');
-
+const fs = require('fs');
+const path = require('path');
 const {connectDB, routesConnectDB} = require('./config/configDB');
 
 const admimRouter = require('./router/admin');
@@ -14,10 +16,14 @@ const mhRouter = require('./router/monhoc');
 const lRouter = require('./router/lop');
 const kRouter = require('./router/khoa');
 const dRouter = require('./router/diem');
+const testRouter = require('./router/test');
 
-
-
-app.use(morgan("dev"));
+app.enable("trust proxy");
+app.use(helmet());
+// app.use(morgan("dev"));
+app.use(morgan('combined', {
+    stream: fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'})
+}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -48,12 +54,13 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use('/admin',admimRouter);
-app.use('/sv',svRouter);
-app.use('/mh',mhRouter);
-app.use('/lop',lRouter);
-app.use('/khoa',kRouter);
-app.use('/diem',dRouter);
+app.use('/admin', admimRouter);
+app.use('/sv', svRouter);
+app.use('/mh', mhRouter);
+app.use('/lop', lRouter);
+app.use('/khoa', kRouter);
+app.use('/diem', dRouter);
+app.use('/test', testRouter);
 
 app.get('/', routesConnectDB);
 

@@ -112,15 +112,7 @@ let getDALL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: diem.id,
-                    sv_id: diem.sv_id,
-                    mh_id: diem.mh_id,
-                    diem10: diem.diem10,
-                    diem30: diem.diem30,
-                    diem60: diem.diem60,
-                    diemtong: diem.diemtong
-                }
+                data:diem
             });
         }
     } catch (e) {

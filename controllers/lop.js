@@ -96,11 +96,7 @@ let getLALL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: lop.id,
-                    ten: lop.ten,
-                    malop: lop.malop,
-                }
+                data: lop
             });
         }
     } catch (e) {

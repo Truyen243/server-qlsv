@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
   MonHoc.init({
     ten: DataTypes.STRING,
     hesodiem: DataTypes.INTEGER,
-    sotiet: DataTypes.INTEGER
+    sotiet: DataTypes.INTEGER,
+    mamonhoc: DataTypes.STRING,
+
   }, {
     sequelize,
     tableName: 'MonHocs',

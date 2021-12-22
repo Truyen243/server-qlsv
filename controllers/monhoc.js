@@ -2,11 +2,12 @@ const {Monhoc} = require('../models/index');
 
 let createMH = async (req, res) => {
     try {
-        const {ten, hesodiem, sotiet} = req.body;
+        const {ten, hesodiem, sotiet,mamonhoc} = req.body;
         const monhoc = await Monhoc.create({
             ten: ten,
             hesodiem: hesodiem,
-            sotiet: sotiet
+            sotiet: sotiet,
+            mamonhoc:mamonhoc
         });
         if (monhoc === null) {
             return res.json({
@@ -24,7 +25,8 @@ let createMH = async (req, res) => {
                     id: monhoc.id,
                     ten: monhoc.ten,
                     hesodiem: monhoc.hesodiem,
-                    sotiet: monhoc.sotiet
+                    sotiet: monhoc.sotiet,
+                    mamonhoc: monhoc.mamonhoc
                 }
             });
         }
@@ -58,7 +60,8 @@ let getMH = async (req, res) => {
                     id: monhoc.id,
                     ten: monhoc.ten,
                     hesodiem: monhoc.hesodiem,
-                    sotiet: monhoc.sotiet
+                    sotiet: monhoc.sotiet,
+                    mamonhoc: monhoc.mamonhoc
                 }
             });
         }
@@ -87,12 +90,7 @@ let getMHALL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: monhoc.id,
-                    ten: monhoc.ten,
-                    hesodiem: monhoc.hesodiem,
-                    sotiet: monhoc.sotiet
-                }
+                data: monhoc
             });
         }
     } catch (e) {
@@ -107,11 +105,12 @@ let getMHALL = async (req, res) => {
 
 let editMH = async (req, res) => {
     try {
-        const {id, ten, hesodiem, sotiet} = req.body;
+        const {id, ten, hesodiem, sotiet,mamonhoc} = req.body;
         const monhoc = await Monhoc.findByPk(id);
         monhoc.ten = ten || monhoc.ten;
         monhoc.hesodiem = hesodiem || monhoc.hesodiem;
         monhoc.sotiet = sotiet || monhoc.sotiet;
+        monhoc.mamonhoc = mamonhoc || monhoc.mamonhoc;
 
         const monhocedit = await monhoc.save();
         if (monhocedit === null) {

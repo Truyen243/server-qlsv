@@ -12,7 +12,7 @@ let createAmin = async (req, res) => {
         const name = req.body.name;
         const email = req.body.email;
         const password = req.body.password;
-        const check =await checkEmail(email);
+        const check = await checkEmail(email);
         if (!check) {
             if (validateEmail(email)) {
                 if (validatePassword(password)) {
@@ -149,7 +149,7 @@ let loginAdmin = async (req, res) => {
             }
         });
         if (admin === null) {
-            res.json({
+            return res.json({
                 status: 'error',
                 code: '401',
                 message: 'Email hoac Password sai',
@@ -181,6 +181,13 @@ let loginAdmin = async (req, res) => {
                         },
                         token: token
                     })
+                } else {
+                    return res.json({
+                        status: 'error',
+                        code: '401',
+                        message: 'Email hoac Password sai',
+                        data: null
+                    });
                 }
             } else {
                 return res.json({
@@ -191,6 +198,49 @@ let loginAdmin = async (req, res) => {
                 })
             }
 
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '401',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+
+let forgotAdmin = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const password = req.body.password;
+        const newpassword = req.body.newpassword;
+        const admin = await Admin.findByPk(id);
+
+        if (admin === null) {
+            return res.json({
+                status: 'error',
+                code: '401',
+                message: 'Tai khoan khong ton tai',
+                data: null
+            });
+        } else {
+            if (verifyPassword(password, admin.password)) {
+                admin.password = hashPassword(newpassword);
+                await admin.save()
+                res.json({
+                    status: 'success',
+                    code: '200',
+                    message: 'Doi mat khau thanh cong',
+                    data:null
+                })
+            } else {
+                return res.json({
+                    status: 'error',
+                    code: '401',
+                    message: 'Sai mat khau',
+                    data: null
+                });
+            }
         }
     } catch (e) {
         res.json({
@@ -279,5 +329,6 @@ module.exports = {
     createAmin,
     getAdminId,
     loginAdmin,
-    verifyEmailAdmin
+    verifyEmailAdmin,
+    forgotAdmin
 }
