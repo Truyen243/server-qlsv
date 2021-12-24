@@ -37,7 +37,8 @@
       "xoa lop": ["delete","/lop/delete/:id"],
       "xem lop": ["get","/lop/get/:id"],
       "xem ta ca lop": ["get","/lop/get/all"],
-      "search lop": ["get","/lop/search/:malop"]
+      "search lop": ["get","/lop/search/:malop"],
+      "lop sinh vien": ["get","/sv/:id"]
     },
     "khoa": {
       "tao khoa": ["post","/khoa/create",[

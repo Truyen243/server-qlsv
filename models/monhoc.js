@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     tableName: 'MonHocs',
+    freezeTableName: true,
     modelName: 'MonHoc',
   });
   return MonHoc;

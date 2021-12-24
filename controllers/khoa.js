@@ -19,11 +19,7 @@ let createK = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: khoa.id,
-                    ten: khoa.ten,
-                    makhoa: khoa.makhoa,
-                }
+                data: khoa
             });
         }
     } catch (e) {
@@ -52,11 +48,7 @@ let getK = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: khoa.id,
-                    ten: khoa.ten,
-                    makhoa: khoa.makhoa,
-                }
+                data: khoa
             });
         }
     } catch (e) {
@@ -68,6 +60,7 @@ let getK = async (req, res) => {
         })
     }
 }
+
 let searchMK = async (req, res) => {
     try {
         const {makhoa} = req.params;
@@ -152,11 +145,7 @@ let editK = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: khoaedit.id,
-                    ten: khoaedit.ten,
-                    makhoa: khoaedit.makhoa,
-                }
+                data: khoaedit
             });
         }
     } catch (e) {

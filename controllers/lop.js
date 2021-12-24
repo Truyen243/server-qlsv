@@ -1,4 +1,4 @@
-const {Lop, Khoa} = require("../models/index");
+const {Lop, Khoa,SinhVien} = require("../models/index");
 
 let createL = async (req, res) => {
     try {
@@ -20,11 +20,7 @@ let createL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: lop.id,
-                    ten: lop.ten,
-                    malop: lop.malop,
-                }
+                data: lop
             });
         }
     } catch (e) {
@@ -58,11 +54,7 @@ let getL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: lop.id,
-                    ten: lop.ten,
-                    malop: lop.malop,
-                }
+                data: lop
             });
         }
     } catch (e) {
@@ -130,11 +122,7 @@ let editL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: lopedit.id,
-                    ten: lopedit.ten,
-                    malop: lopedit.malop,
-                }
+                data:lopedit
             });
         }
     } catch (e) {
@@ -181,6 +169,41 @@ let deleteL = async (req, res) => {
     }
 }
 
+let getLSV = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const lop = await Lop.findByPk(id, {
+            include: [{
+                model: SinhVien,
+                as: 'sinhviens'
+            }]
+        });
+        if (lop === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Khong tim thay mon lop',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data:lop
+            });
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+
+
 let searchMsl = async (req, res) => {
     try {
         const {malop} = req.params;
@@ -205,11 +228,7 @@ let searchMsl = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: lop.id,
-                    ten: lop.ten,
-                    malop: lop.malop,
-                }
+                data: lop
             });
         }
     } catch (e) {
@@ -227,5 +246,6 @@ module.exports = {
     editL,
     deleteL,
     getLALL,
-    searchMsl
+    searchMsl,
+    getLSV
 }

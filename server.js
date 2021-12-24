@@ -16,7 +16,7 @@ const mhRouter = require('./router/monhoc');
 const lRouter = require('./router/lop');
 const kRouter = require('./router/khoa');
 const dRouter = require('./router/diem');
-const testRouter = require('./router/test');
+
 
 app.enable("trust proxy");
 app.use(helmet());
@@ -60,7 +60,6 @@ app.use('/mh', mhRouter);
 app.use('/lop', lRouter);
 app.use('/khoa', kRouter);
 app.use('/diem', dRouter);
-app.use('/test', testRouter);
 
 app.get('/', routesConnectDB);
 

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const {SinhVien, Lop} = require('../models/index');
+const {SinhVien, Lop,Khoa} = require("../models/index");
 
 
 let createSV = async (req, res) => {
@@ -29,18 +29,7 @@ let createSV = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: sinhvien.id,
-                    name: sinhvien.name,
-                    mssv: sinhvien.uid,
-                    address: sinhvien.address,
-                    email: sinhvien.email,
-                    date: sinhvien.date,
-                    sex: sinhvien.sex,
-                    phone: sinhvien.phone,
-                    updatedAt: sinhvien.updatedAt,
-                    createdAt: sinhvien.createdAt
-                }
+                data: sinhvien
             })
         }
     } catch (e) {
@@ -58,8 +47,14 @@ let getSV = async (req, res) => {
         const id = req.params.id;
         const sinhvien = await SinhVien.findByPk(id, {
             include: [{
-                module: Lop,
+                model: Lop,
                 as: 'sinhviens',
+                required: true,
+                include:[{
+                    model:Khoa,
+                    as:'lops',
+                    required: true,
+                }]
             }]
         });
         if (sinhvien === null) {
@@ -74,21 +69,11 @@ let getSV = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: sinhvien.id,
-                    name: sinhvien.name,
-                    mssv: sinhvien.uid,
-                    address: sinhvien.address,
-                    email: sinhvien.email,
-                    date: sinhvien.date,
-                    sex: sinhvien.sex,
-                    phone: sinhvien.phone,
-                    updatedAt: sinhvien.updatedAt,
-                    createdAt: sinhvien.createdAt
-                }
+                data: sinhvien
             })
         }
     } catch (e) {
+        console.log(e)
         res.json({
             status: 'error',
             code: '404',
@@ -103,8 +88,14 @@ let getSVALL = async (req, res) => {
 
         const sinhvien = await SinhVien.findAll({
             include: [{
-                module: Lop,
+                model: Lop,
                 as: 'sinhviens',
+                required: true,
+                include:[{
+                    model:Khoa,
+                    as:'lops',
+                    required: true,
+                }]
             }]
         });
         if (sinhvien === null) {
@@ -155,18 +146,7 @@ let editSV = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: sinhvienedit.id,
-                    name: sinhvienedit.name,
-                    mssv: sinhvienedit.uid,
-                    address: sinhvienedit.address,
-                    email: sinhvienedit.email,
-                    date: sinhvienedit.date,
-                    sex: sinhvienedit.sex,
-                    phone: sinhvienedit.phone,
-                    updatedAt: sinhvienedit.updatedAt,
-                    createdAt: sinhvienedit.createdAt
-                }
+                data: sinhvienedit
             })
         }
     } catch (e) {
@@ -182,7 +162,7 @@ let editSV = async (req, res) => {
 let deleteSV = async (req, res) => {
     try {
         const {id} = req.params;
-        const sinhvien = await SinhVien.destroy({
+        const sinhvien = await db.SinhVien.destroy({
             where: {
                 id: id
             }
@@ -219,11 +199,17 @@ let searchMssv = async (req, res) => {
         const {mssv} = req.params;
         const sinhvien = await SinhVien.findAll({
             where: {
-                uid:mssv
+                uid: mssv
             },
             include: [{
-                module: Lop,
+                model: Lop,
                 as: 'sinhviens',
+                required: true,
+                include:[{
+                    model:Khoa,
+                    as:'lops',
+                    required: true,
+                }]
             }]
         });
         if (sinhvien === null) {
@@ -234,30 +220,21 @@ let searchMssv = async (req, res) => {
                 data: null
             });
         } else {
+
             res.json({
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: sinhvien.id,
-                    name: sinhvien.name,
-                    mssv: sinhvien.uid,
-                    address: sinhvien.address,
-                    email: sinhvien.email,
-                    date: sinhvien.date,
-                    sex: sinhvien.sex,
-                    phone: sinhvien.phone,
-                    updatedAt: sinhvien.updatedAt,
-                    createdAt: sinhvien.createdAt
-                }
+                data: sinhvien
             })
         }
     } catch (e) {
+        console.log(e)
         res.json({
             status: 'error',
             code: '404',
             message: 'Vui long dang nhap',
-            data: null
+            data: e
         })
     }
 }

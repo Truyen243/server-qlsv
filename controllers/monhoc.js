@@ -21,13 +21,7 @@ let createMH = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: monhoc.id,
-                    ten: monhoc.ten,
-                    hesodiem: monhoc.hesodiem,
-                    sotiet: monhoc.sotiet,
-                    mamonhoc: monhoc.mamonhoc
-                }
+                data: monhoc
             });
         }
     } catch (e) {
@@ -56,13 +50,7 @@ let getMH = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: monhoc.id,
-                    ten: monhoc.ten,
-                    hesodiem: monhoc.hesodiem,
-                    sotiet: monhoc.sotiet,
-                    mamonhoc: monhoc.mamonhoc
-                }
+                data: monhoc
             });
         }
     } catch (e) {
@@ -125,12 +113,7 @@ let editMH = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: {
-                    id: monhocedit.id,
-                    ten: monhocedit.ten,
-                    hesodiem: monhocedit.hesodiem,
-                    sotiet: monhocedit.sotiet
-                }
+                data: monhocedit
             });
         }
     } catch (e) {
