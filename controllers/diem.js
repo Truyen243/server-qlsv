@@ -1,4 +1,4 @@
-const {MonHoc,SinhVien} = require('../models/index');
+const {MonHoc,SinhVien,Diem} = require('../models/index');
 
 let createD = async (req, res) => {
     try {
@@ -179,10 +179,48 @@ let deleteD = async (req, res) => {
     }
 }
 
+let getDMH = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const diem = await MonHoc.findByPk(id,{
+            include:[{
+                model:SinhVien,
+                as:'monhocs',
+                through:{
+                    attributes:[]
+                }
+            }]
+        });
+        if (diem === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Khong tim thay mon hoc',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: diem
+            });
+        }
+    } catch (e) {
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
+
 module.exports = {
     createD,
     getD,
     editD,
     deleteD,
-    getDALL
+    getDALL,
+    getDMH
 }

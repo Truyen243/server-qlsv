@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const {SinhVien, Lop,Khoa} = require("../models/index");
+const {SinhVien, Lop, Khoa, Diem, MonHoc} = require("../models/index");
 
 
 let createSV = async (req, res) => {
@@ -50,14 +50,15 @@ let getSV = async (req, res) => {
                 model: Lop,
                 as: 'sinhviens',
                 required: true,
-                include:[{
-                    model:Khoa,
-                    as:'lops',
+                include: [{
+                    model: Khoa,
+                    as: 'lops',
                     required: true,
                 }]
+
             }]
         });
-        if (sinhvien === null) {
+        if (sinhvien.length <= 0) {
             return res.json({
                 status: 'error',
                 code: '404',
@@ -83,6 +84,46 @@ let getSV = async (req, res) => {
     }
 }
 
+let getSVD = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const sinhvien = await SinhVien.findByPk(id, {
+            include: [{
+                model: MonHoc,
+                as: 'sinhvienmh',
+                required:true,
+                include:[{
+                    model:Diem,
+                    as:'diemsv',
+                    required:true
+                }]
+            }]
+        });
+        if (sinhvien.length <= 0) {
+            return res.json({
+                status: 'error',
+                code: '404',
+                message: 'Khong tim thay sinh vien',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: sinhvien
+            })
+        }
+    } catch (e) {
+        console.log(e)
+        res.json({
+            status: 'error',
+            code: '404',
+            message: 'Vui long dang nhap',
+            data: null
+        })
+    }
+}
 let getSVALL = async (req, res) => {
     try {
 
@@ -91,14 +132,14 @@ let getSVALL = async (req, res) => {
                 model: Lop,
                 as: 'sinhviens',
                 required: true,
-                include:[{
-                    model:Khoa,
-                    as:'lops',
+                include: [{
+                    model: Khoa,
+                    as: 'lops',
                     required: true,
                 }]
             }]
         });
-        if (sinhvien === null) {
+        if (sinhvien.length <= 0) {
             return res.json({
                 status: 'error',
                 code: '404',
@@ -125,7 +166,7 @@ let getSVALL = async (req, res) => {
 
 let editSV = async (req, res) => {
     try {
-        const {id, name, address, email, phone, date, sex} = req.body;
+        const {id, name, address, email, phone, date, sex, lop_id} = req.body;
         const sinhvien = await SinhVien.findByPk(id);
         sinhvien.name = name || sinhvien.name
         sinhvien.address = address || sinhvien.address
@@ -133,6 +174,7 @@ let editSV = async (req, res) => {
         sinhvien.phone = phone || sinhvien.phone
         sinhvien.date = date || sinhvien.date
         sinhvien.sex = sex || sinhvien.sex
+        sinhvien.lop_id = lop_id || sinhvien.lop_id
         const sinhvienedit = await sinhvien.save();
         if (sinhvienedit === null) {
             return res.json({
@@ -162,28 +204,27 @@ let editSV = async (req, res) => {
 let deleteSV = async (req, res) => {
     try {
         const {id} = req.params;
-        const sinhvien = await db.SinhVien.destroy({
-            where: {
-                id: id
-            }
-        });
 
-        if (sinhvien === null) {
+        const sinhvien = await SinhVien.findByPk(id);
+        console.log(sinhvien)
+        if (sinhvien.length <= 0) {
             return res.json({
                 status: 'error',
                 code: '405',
-                message: 'Sua mon hoc that bai ',
+                message: 'delete',
                 data: null
             });
         } else {
+            await sinhvien.destroy();
             res.json({
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data: sinhvien
+                data: 'true'
             });
         }
     } catch (e) {
+        console.log(e)
         res.json({
             status: 'error',
             code: '404',
@@ -201,18 +242,19 @@ let searchMssv = async (req, res) => {
             where: {
                 uid: mssv
             },
+
             include: [{
                 model: Lop,
                 as: 'sinhviens',
                 required: true,
-                include:[{
-                    model:Khoa,
-                    as:'lops',
+                include: [{
+                    model: Khoa,
+                    as: 'lops',
                     required: true,
                 }]
             }]
         });
-        if (sinhvien === null) {
+        if (sinhvien.length <= 0) {
             return res.json({
                 status: 'error',
                 code: '404',
@@ -220,7 +262,6 @@ let searchMssv = async (req, res) => {
                 data: null
             });
         } else {
-
             res.json({
                 status: 'success',
                 code: '200',
@@ -257,5 +298,6 @@ module.exports = {
     editSV,
     deleteSV,
     getSVALL,
-    searchMssv
+    searchMssv,
+    getSVD
 }

@@ -11,6 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Diem.belongsTo(models.SinhVien,{foreignKey:'sv_id',as:'diemsv'})
+      Diem.belongsTo(models.MonHoc,{foreignKey:'mh_id',as:'diemmh'})
     }
   };
   Diem.init({

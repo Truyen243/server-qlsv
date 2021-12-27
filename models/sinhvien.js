@@ -11,8 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      SinhVien.belongsTo(models.Lop, {foreignKey: 'lop_id', as: 'sinhviens'});
+      SinhVien.belongsTo(models.Lop, {foreignKey: 'lop_id', as: 'sinhviens',onDelete: 'CASCADE'});
       SinhVien.belongsToMany(models.MonHoc,{through:'Diems',foreignKey:'sv_id',as:'sinhvienmh'});
+      SinhVien.hasMany(models.Diem,{foreignKey:'sv_id',as:'diemsv'})
     }
   };
   SinhVien.init({

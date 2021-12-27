@@ -11,10 +11,11 @@
         "name", "email", "address", "date", "phone", "sex", "lop_id"
       ]],
       "sua sinh vien": ["post","/sv/edit",
-        ["id"," name", "address", "email", "phone", "date", "sex"]],
+        ["id", "name", "email", "address", "date", "phone", "sex", "lop_id"]],
       "xoa sinh vien": ["delete","/sv/delete/:id"],
       "xem mot sinh vien": ["get","/sv/get/:id"],
       "xem ta ca sinh vien": ["get","/sv/get/all"],
+      "xem diem cua sinh vien": ["get","/sv/diem/:id"],
       "search mssv": ["get","/sv/search/:mssv"]
     },
     "mon hoc": {
@@ -25,7 +26,8 @@
         ["id","ten", "hesodiem", "sotiet","mamonhoc"]],
       "xoa mon hoc": ["delete","/mh/delete/:id"],
       "xem mon hoc": ["get","/mh/get/:id"],
-      "xem ta ca mon hoc": ["get","/mh/get/all"]
+      "xem ta ca mon hoc": ["get","/mh/get/all"],
+      "tim diem theo ma mon hoc": ["get","/mh/diem/:mamonhoc"]
 
     },
     "lop": {
