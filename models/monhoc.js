@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       MonHoc.belongsToMany(models.SinhVien,{through:'Diems',foreignKey:'mh_id',as:'monhocs'});
-      MonHoc.hasMany(models.Diem,{foreignKey:'mh_id',as:'diemmh'})
+      MonHoc.hasMany(models.Diem,{foreignKey:'mh_id',as:'diemsv'})
     }
   };
   MonHoc.init({

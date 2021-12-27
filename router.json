@@ -57,10 +57,10 @@
       "tao diem": ["post","/diem/create",[
         "sv_id", "mh_id", "diem10", "diem30", "diem60", "diemtong"
       ]],
-      "sua diem": ["post","/diem/edit",
-        ["id","sv_id", "mh_id", "diem10", "diem30", "diem60", "diemtong"]],
+      "sua diem": ["post","/diem/edit/:id",
+        [ "diem10", "diem30", "diem60", "diemtong"]],
       "xoa diem": ["delete","/diem/delete/:id"],
-      "xem diem": ["get","/diem/get/:id"],
+      "xem diem cua sinh vien": ["get","/diem/get/:id"],
       "xem ta ca diem": ["get","/diem/get/all"]
     }
   }

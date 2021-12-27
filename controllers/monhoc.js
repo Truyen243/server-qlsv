@@ -170,7 +170,8 @@ let getMHD = async (req, res) => {
             },
             include:[{
                 model:Diem,
-                as:'diems'
+                as:'diemsv',
+                required:true
             }]
         });
         if (monhoc === null) {
@@ -189,6 +190,7 @@ let getMHD = async (req, res) => {
             });
         }
     } catch (e) {
+        console.log(e)
         res.json({
             status: 'error',
             code: '404',

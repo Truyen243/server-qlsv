@@ -18,10 +18,10 @@ module.exports = (sequelize, DataTypes) => {
   Diem.init({
     sv_id: DataTypes.INTEGER,
     mh_id: DataTypes.INTEGER,
-    diem10: DataTypes.INTEGER,
-    diem30: DataTypes.INTEGER,
-    diem60: DataTypes.INTEGER,
-    diemtong: DataTypes.INTEGER
+    diem10: DataTypes.FLOAT,
+    diem30: DataTypes.FLOAT,
+    diem60: DataTypes.FLOAT,
+    diemtong: DataTypes.FLOAT
   }, {
     sequelize,
     tableName: 'Diems',

@@ -88,16 +88,12 @@ let getSVD = async (req, res) => {
     try {
         const id = req.params.id;
         const sinhvien = await SinhVien.findByPk(id, {
-            include: [{
-                model: MonHoc,
-                as: 'sinhvienmh',
-                required:true,
-                include:[{
-                    model:Diem,
-                    as:'diemsv',
-                    required:true
-                }]
+            include:[{
+                model:Diem,
+                as:'diemsv',
+                required:true
             }]
+
         });
         if (sinhvien.length <= 0) {
             return res.json({

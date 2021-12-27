@@ -1,31 +1,50 @@
-const {MonHoc,SinhVien,Diem} = require('../models/index');
-
+const {MonHoc, SinhVien, Diem} = require('../models/index');
+const Sequelize = require('sequelize');
 let createD = async (req, res) => {
     try {
         const {sv_id, mh_id, diem10, diem30, diem60, diemtong} = req.body;
-        const diem = await Diem.create({
-            sv_id: sv_id,
-            mh_id: mh_id,
-            diem10: diem10,
-            diem30: diem30,
-            diem60: diem60,
-            diemtong: diemtong
+        const check = await Diem.findAll({
+            where: Sequelize.or({
+                sv_id: sv_id
+            }, {
+                mh_id: mh_id
+            }),
+            limit: 1
         });
-        if (diem === null) {
+        console.log(check)
+        if (check.sv_id === sv_id && check.mh_id === mh_id) {
             return res.json({
                 status: 'error',
                 code: '405',
-                message: 'Tao mon hoc that bai',
+                message: 'Tao mon hoc that bai trung',
                 data: null
             });
         } else {
-            res.json({
-                status: 'success',
-                code: '200',
-                message: 'Thanh cong',
-                data: diem
+            const diem = await Diem.create({
+                sv_id: sv_id,
+                mh_id: mh_id,
+                diem10: diem10,
+                diem30: diem30,
+                diem60: diem60,
+                diemtong: diemtong
             });
+            if (diem === null) {
+                return res.json({
+                    status: 'error',
+                    code: '405',
+                    message: 'Tao mon hoc that bai',
+                    data: null
+                });
+            } else {
+                res.json({
+                    status: 'success',
+                    code: '200',
+                    message: 'Thanh cong',
+                    data: diem
+                });
+            }
         }
+
     } catch (e) {
         res.json({
             status: 'error',
@@ -39,12 +58,12 @@ let createD = async (req, res) => {
 let getD = async (req, res) => {
     try {
         const {id} = req.params;
-        const diem = await SinhVien.findByPk(id,{
-            include:[{
-                model:MonHoc,
-                as:'sinhvienmh',
-                through:{
-                    attributes:[]
+        const diem = await SinhVien.findByPk(id, {
+            include: [{
+                model: MonHoc,
+                as: 'sinhvienmh',
+                through: {
+                    attributes: []
                 }
             }]
         });
@@ -76,11 +95,11 @@ let getD = async (req, res) => {
 let getDALL = async (req, res) => {
     try {
         const diem = await SinhVien.findAll({
-            include:[{
-                model:MonHoc,
-                as:'sinhvienmh',
-                through:{
-                    attributes:[]
+            include: [{
+                model: MonHoc,
+                as: 'sinhvienmh',
+                through: {
+                    attributes: []
                 }
             }]
         });
@@ -96,7 +115,7 @@ let getDALL = async (req, res) => {
                 status: 'success',
                 code: '200',
                 message: 'Thanh cong',
-                data:diem
+                data: diem
             });
         }
     } catch (e) {
@@ -111,7 +130,8 @@ let getDALL = async (req, res) => {
 
 let editD = async (req, res) => {
     try {
-        const {id, diem10, diem30, diem60, diemtong} = req.body;
+        const id = req.params.id;
+        const {diem10, diem30, diem60, diemtong} = req.body;
         const diem = await Diem.findByPk(id);
         diem.diem10 = diem10 || diem.diem10;
         diem.diem30 = diem30 || diem.diem30;
@@ -119,7 +139,7 @@ let editD = async (req, res) => {
         diem.diemtong = diemtong || diem.diemtong;
 
 
-        const monhocedit = await monhoc.save();
+        const monhocedit = await diem.save();
         if (monhocedit === null) {
             return res.json({
                 status: 'error',
@@ -136,6 +156,7 @@ let editD = async (req, res) => {
             });
         }
     } catch (e) {
+        console.log(e)
         res.json({
             status: 'error',
             code: '404',
@@ -182,12 +203,12 @@ let deleteD = async (req, res) => {
 let getDMH = async (req, res) => {
     try {
         const {id} = req.params;
-        const diem = await MonHoc.findByPk(id,{
-            include:[{
-                model:SinhVien,
-                as:'monhocs',
-                through:{
-                    attributes:[]
+        const diem = await MonHoc.findByPk(id, {
+            include: [{
+                model: SinhVien,
+                as: 'monhocs',
+                through: {
+                    attributes: []
                 }
             }]
         });

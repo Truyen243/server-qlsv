@@ -23,16 +23,16 @@ module.exports = {
         }
       },
       diem10: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       diem30: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       diem60: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       diemtong: {
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       createdAt: {
         allowNull: false,
