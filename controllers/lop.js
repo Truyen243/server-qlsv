@@ -109,7 +109,7 @@ let editL = async (req, res) => {
         lop.khoa_id = khoa_id || lop.khoa_id;
         lop.malop = malop || lop.malop;
 
-        const lopedit = await khoa.save();
+        const lopedit = await lop.save();
         if (lopedit === null) {
             return res.json({
                 status: 'error',

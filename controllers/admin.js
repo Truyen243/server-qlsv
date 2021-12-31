@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const {validatePassword, validateEmail} = require('../validate/index');
 const {sendMail} = require('../sendmail/index');
 
-
 let createAmin = async (req, res) => {
     try {
 

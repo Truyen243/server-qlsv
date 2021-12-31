@@ -4,48 +4,48 @@ let createD = async (req, res) => {
     try {
         const {sv_id, mh_id, diem10, diem30, diem60, diemtong} = req.body;
         const check = await Diem.findAll({
-            where: Sequelize.or({
+            where: Sequelize.and({
                 sv_id: sv_id
             }, {
                 mh_id: mh_id
-            }),
-            limit: 1
+            }), limit: 1
         });
-        console.log(check)
-        if (check.sv_id === sv_id && check.mh_id === mh_id) {
-            return res.json({
-                status: 'error',
-                code: '405',
-                message: 'Tao mon hoc that bai trung',
-                data: null
-            });
-        } else {
-            const diem = await Diem.create({
-                sv_id: sv_id,
-                mh_id: mh_id,
-                diem10: diem10,
-                diem30: diem30,
-                diem60: diem60,
-                diemtong: diemtong
-            });
-            if (diem === null) {
+        const tets = JSON.parse(JSON.stringify(check))[0];
+            if (tets) {
                 return res.json({
                     status: 'error',
                     code: '405',
-                    message: 'Tao mon hoc that bai',
+                    message: 'Tao mon hoc that bai trung',
                     data: null
                 });
-            } else {
-                res.json({
-                    status: 'success',
-                    code: '200',
-                    message: 'Thanh cong',
-                    data: diem
-                });
             }
+
+        const diem = await Diem.create({
+            sv_id: sv_id,
+            mh_id: mh_id,
+            diem10: diem10,
+            diem30: diem30,
+            diem60: diem60,
+            diemtong: diemtong
+        });
+        if (diem === null) {
+            return res.json({
+                status: 'error',
+                code: '405',
+                message: 'Tao mon hoc that bai',
+                data: null
+            });
+        } else {
+            res.json({
+                status: 'success',
+                code: '200',
+                message: 'Thanh cong',
+                data: diem
+            });
         }
 
     } catch (e) {
+        console.log(e)
         res.json({
             status: 'error',
             code: '404',
